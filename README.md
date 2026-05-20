@@ -1,6 +1,3 @@
-bash
-
-cat > /mnt/user-data/outputs/README_yapyap.md << 'EOF'
 # 💬 YapYap
 
 > Say more, type less.
