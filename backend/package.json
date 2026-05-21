@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+  "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+  "build": "prisma generate && tsc",
+  "start": "node dist/index.js",
+  "db:migrate": "prisma migrate deploy",
+  "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
