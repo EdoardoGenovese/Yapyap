@@ -13,6 +13,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { CreateRoomDialog } from '../rooms/CreateRoomDialog'
 import { JoinRoomDialog } from '../rooms/JoinRoomDialog'
 
+interface SidebarProps {
+  onRoomSelect?: () => void
+}
+
 function UserAvatar({ username, color }: { username: string; color: string }) {
   return (
     <div
@@ -24,14 +28,23 @@ function UserAvatar({ username, color }: { username: string; color: string }) {
   )
 }
 
-function RoomItem({ room, isActive }: { room: Room; isActive: boolean }) {
+function RoomItem({ room, isActive, onSelect }: { 
+  room: Room
+  isActive: boolean
+  onSelect?: () => void 
+}) {
   const router = useRouter()
 
   return (
     <button
-      onClick={() => router.push(`/rooms/${room.id}`)}
+      onClick={() => {
+        router.push(`/rooms/${room.id}`)
+        onSelect?.()
+      }}
       className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-colors ${
-        isActive ? 'bg-zinc-700 text-white' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+        isActive
+          ? 'bg-zinc-700 text-white'
+          : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
       }`}
     >
       {room.type === 'PUBLIC' ? (
@@ -40,12 +53,14 @@ function RoomItem({ room, isActive }: { room: Room; isActive: boolean }) {
         <Lock className="w-4 h-4 shrink-0" />
       )}
       <span className="text-sm truncate">{room.name}</span>
-      {room._count && <span className="ml-auto text-xs">{room._count.members}</span>}
+      {room._count && (
+        <span className="ml-auto text-xs text-zinc-600">{room._count.members}</span>
+      )}
     </button>
   )
 }
 
-export function Sidebar() {
+export function Sidebar({ onRoomSelect }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const { user, logout, refreshToken } = useAuthStore()
@@ -93,8 +108,13 @@ export function Sidebar() {
               </span>
             </div>
             <div className="flex flex-col gap-0.5">
-              {rooms?.public.map(room => (
-                <RoomItem key={room.id} room={room} isActive={activeRoomId === room.id} />
+              {rooms?.public.map((room) => (
+                <RoomItem
+                  key={room.id}
+                  room={room}
+                  isActive={activeRoomId === room.id}
+                  onSelect={onRoomSelect}
+                />
               ))}
             </div>
           </div>

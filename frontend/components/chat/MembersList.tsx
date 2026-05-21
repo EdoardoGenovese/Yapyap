@@ -1,10 +1,11 @@
 'use client'
 
 import type { RoomMember } from '@/types'
-import { Crown, Shield } from 'lucide-react'
+import { Crown, Shield, X } from 'lucide-react'
 
 interface MembersListProps {
   members: RoomMember[]
+  onClose?: () => void
 }
 
 function MemberItem({ member }: { member: RoomMember }) {
@@ -34,16 +35,24 @@ function MemberItem({ member }: { member: RoomMember }) {
   )
 }
 
-export function MembersList({ members }: MembersListProps) {
+export function MembersList({ members, onClose }: MembersListProps) {
   const online = members.filter(m => m.user.isOnline)
   const offline = members.filter(m => !m.user.isOnline)
 
   return (
     <div className="w-52 bg-zinc-900 border-l border-zinc-800 flex flex-col h-full shrink-0">
-      <div className="px-4 py-3 border-b border-zinc-800">
+      <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
         <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
           Members — {members.length}
         </h3>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden text-zinc-500 hover:text-white"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto py-3 px-2">

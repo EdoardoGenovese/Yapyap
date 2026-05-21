@@ -106,7 +106,26 @@ export function ChatRoom({ roomId }: ChatRoomProps) {
         />
       </div>
 
-      {membersOpen && room.members && <MembersList members={room.members} />}
+      {membersOpen && (
+  <>
+    {/* Overlay mobile */}
+    <div
+      className="fixed inset-0 bg-black/60 z-20 lg:hidden"
+      onClick={() => setMembersOpen(false)}
+    />
+    {/* Members panel */}
+    <div className="
+      fixed lg:relative inset-y-0 right-0
+      z-30 lg:z-auto
+      w-52
+    ">
+      <MembersList
+        members={room.members ?? []}
+        onClose={() => setMembersOpen(false)}
+      />
+    </div>
+  </>
+)}
     </div>
   )
 }
