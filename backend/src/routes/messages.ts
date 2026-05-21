@@ -21,7 +21,7 @@ const messageInclude = {
 
 // GET /api/messages/:roomId — messaggi paginati
 messageRouter.get('/:roomId', async (req: AuthRequest, res) => {
-  const { roomId } = req.params
+  const roomId = req.params.roomId as string
   const cursor = req.query.cursor as string | undefined
   const limit = 50
 
@@ -43,7 +43,7 @@ messageRouter.get('/:roomId', async (req: AuthRequest, res) => {
 
 // POST /api/messages/:roomId — invia messaggio
 messageRouter.post('/:roomId', async (req: AuthRequest, res) => {
-  const { roomId } = req.params
+  const roomId = req.params.roomId as string
   const { content, replyToId } = req.body
   const userId = req.user!.id
 
@@ -70,7 +70,7 @@ messageRouter.post('/:roomId', async (req: AuthRequest, res) => {
 
 // POST /api/messages/:roomId/upload — upload file
 messageRouter.post('/:roomId/upload', upload.single('file'), async (req: AuthRequest, res) => {
-  const { roomId } = req.params
+  const roomId = req.params.roomId as string
   const userId = req.user!.id
 
   if (!req.file) {
@@ -110,7 +110,7 @@ messageRouter.post('/:roomId/upload', upload.single('file'), async (req: AuthReq
 
 // PATCH /api/messages/:id — modifica messaggio
 messageRouter.patch('/:id', async (req: AuthRequest, res) => {
-  const { id } = req.params
+  const id = req.params.id as string
   const { content } = req.body
   const userId = req.user!.id
 
@@ -136,7 +136,7 @@ messageRouter.patch('/:id', async (req: AuthRequest, res) => {
 
 // DELETE /api/messages/:id — elimina messaggio
 messageRouter.delete('/:id', async (req: AuthRequest, res) => {
-  const { id } = req.params
+  const id = req.params.id as string
   const userId = req.user!.id
 
   const message = await prisma.message.findUnique({ where: { id } })
