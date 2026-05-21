@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-  "build": "prisma generate && tsc",
-  "start": "node dist/index.js",
-  "db:migrate": "prisma migrate deploy",
-  "postinstall": "prisma generate"
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "prisma generate && tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate deploy",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +39,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.1.0",
-    "@types/node": "^25.6.2",
+    "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^6.0.3"
