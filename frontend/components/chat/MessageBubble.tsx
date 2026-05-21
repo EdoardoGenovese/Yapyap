@@ -117,7 +117,7 @@ export function MessageBubble({ message, isOwn, onReply }: MessageBubbleProps) {
           <p className="text-sm text-zinc-200 break-words">{message.content}</p>
         )}
       </div>
-      ì{' '}
+      {' '}
       {showActions && (
         <div className="absolute right-4 top-0 -translate-y-1/2 flex items-center gap-1 bg-zinc-800 border border-zinc-700 rounded-lg px-1 py-0.5 shadow-lg">
           <button
