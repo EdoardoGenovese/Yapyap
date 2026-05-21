@@ -118,7 +118,6 @@ export function Sidebar({ onRoomSelect }: SidebarProps) {
               ))}
             </div>
           </div>
-          {(rooms?.private.length ?? 0) > 0 && (
             <div>
               <div className="flex items-center justify-between px-2 mb-1">
                 <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
@@ -138,13 +137,14 @@ export function Sidebar({ onRoomSelect }: SidebarProps) {
                   </Tooltip>
                 </div>
               </div>
-              <div className="flex flex-col gap-0.5">
-                {rooms?.private.map(room => (
-                  <RoomItem key={room.id} room={room} isActive={activeRoomId === room.id} />
-                ))}
-              </div>
+              {(rooms?.private.length ?? 0) > 0 && (
+                <div className="flex flex-col gap-0.5">
+                  {rooms?.private.map(room => (
+                    <RoomItem key={room.id} room={room} isActive={activeRoomId === room.id} />
+                  ))}
+                </div>
+              )}
             </div>
-          )}
           {' '}
         </div>
         {' '}
