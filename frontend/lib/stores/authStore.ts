@@ -23,11 +23,11 @@ export const useAuthStore = create<AuthStore>()(
       setAuth: (user, accessToken, refreshToken) => {
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
-        Cookies.set('accessToken', accessToken, { expires: 1/96 }) // 15 minuti
+        Cookies.set('accessToken', accessToken, { expires: 1 / 96 }) // 15 minuti
         set({ user, accessToken, refreshToken })
-    },
+      },
 
-      updateUser: (updates) => {
+      updateUser: updates => {
         const current = get().user
         if (current) set({ user: { ...current, ...updates } })
       },
@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthStore>()(
         localStorage.removeItem('refreshToken')
         Cookies.remove('accessToken')
         set({ user: null, accessToken: null, refreshToken: null })
-        },
+      },
 
       isAuthenticated: () => !!get().accessToken && !!get().user,
     }),

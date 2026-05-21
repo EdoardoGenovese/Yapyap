@@ -6,12 +6,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { roomsApi } from '@/lib/api/rooms'
 import { useAuthStore } from '@/lib/stores/authStore'
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import type { Room } from '@/types'
 
 interface RoomHeaderProps {

@@ -9,7 +9,11 @@ import type { AuthRequest } from '../types'
 export const authRouter = Router()
 
 const registerSchema = z.object({
-  username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers and underscores'),
+  username: z
+    .string()
+    .min(3)
+    .max(20)
+    .regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers and underscores'),
   email: z.email(),
   password: z.string().min(8),
 })
@@ -37,7 +41,6 @@ authRouter.post('/register', async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    // Colore avatar random
     const colors = ['#7c3aed', '#2563eb', '#16a34a', '#dc2626', '#d97706', '#0891b2']
     const color = colors[Math.floor(Math.random() * colors.length)]
 
@@ -50,7 +53,6 @@ authRouter.post('/register', async (req, res) => {
     const accessToken = generateAccessToken(payload)
     const refreshToken = generateRefreshToken(payload)
 
-    // Salva refresh token nel db
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -134,7 +136,6 @@ authRouter.post('/refresh', async (req, res) => {
       return
     }
 
-    // Ruota il refresh token
     await prisma.refreshToken.delete({ where: { token: refreshToken } })
 
     const newPayload = { id: payload.id, username: payload.username, email: payload.email }

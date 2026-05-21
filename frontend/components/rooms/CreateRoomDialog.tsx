@@ -50,9 +50,8 @@ export function CreateRoomDialog({ open, onOpenChange }: CreateRoomDialogProps) 
         </DialogHeader>
 
         <div className="flex flex-col gap-4 pt-2">
-          {/* Type selector */}
           <div className="grid grid-cols-2 gap-2">
-            {(['PUBLIC', 'PRIVATE'] as const).map((t) => (
+            {(['PUBLIC', 'PRIVATE'] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setType(t)}
@@ -73,8 +72,8 @@ export function CreateRoomDialog({ open, onOpenChange }: CreateRoomDialogProps) 
             <Input
               placeholder="general"
               value={name}
-              onChange={(e) => setName(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleCreate()}
+              onChange={e => setName(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleCreate()}
               className="bg-zinc-800 border-zinc-700 text-white"
               autoFocus
             />
@@ -85,7 +84,7 @@ export function CreateRoomDialog({ open, onOpenChange }: CreateRoomDialogProps) 
             <Input
               placeholder="What's this room about?"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
               className="bg-zinc-800 border-zinc-700 text-white"
             />
           </div>

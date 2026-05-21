@@ -22,10 +22,9 @@ export const authApi = {
   },
 
   refresh: async (refreshToken: string) => {
-    const res = await api.post<{ accessToken: string; refreshToken: string }>(
-      '/api/auth/refresh',
-      { refreshToken }
-    )
+    const res = await api.post<{ accessToken: string; refreshToken: string }>('/api/auth/refresh', {
+      refreshToken,
+    })
     return res.data
   },
 }

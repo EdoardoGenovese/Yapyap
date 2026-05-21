@@ -9,14 +9,17 @@ cloudinary.config({
 
 export { cloudinary }
 
-// Multer con storage in memoria
 export const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   fileFilter: (_, file, cb) => {
     const allowed = [
-      'image/jpeg', 'image/png', 'image/gif', 'image/webp',
-      'application/pdf', 'text/plain',
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'application/pdf',
+      'text/plain',
       'application/zip',
     ]
     if (allowed.includes(file.mimetype)) {

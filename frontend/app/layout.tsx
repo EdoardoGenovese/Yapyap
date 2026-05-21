@@ -16,9 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <QueryProvider>
-          <SocketProvider>
-            {children}
-          </SocketProvider>
+          <SocketProvider>{children}</SocketProvider>
         </QueryProvider>
       </body>
     </html>

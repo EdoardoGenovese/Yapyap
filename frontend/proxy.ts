@@ -6,7 +6,7 @@ export function proxy(req: NextRequest) {
   const token = req.cookies.get('accessToken')?.value
   const pathname = req.nextUrl.pathname
 
-  const isPublic = publicRoutes.some((route) => pathname.startsWith(route))
+  const isPublic = publicRoutes.some(route => pathname.startsWith(route))
 
   if (!token && !isPublic) {
     return NextResponse.redirect(new URL('/login', req.url))

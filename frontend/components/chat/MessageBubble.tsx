@@ -53,43 +53,32 @@ export function MessageBubble({ message, isOwn, onReply }: MessageBubbleProps) {
       onMouseLeave={() => setShowActions(false)}
     >
       <UserAvatar username={message.user.username} color={message.user.color} />
-
       <div className="flex-1 min-w-0">
         <div className="flex items-baseline gap-2 mb-0.5">
-          <span
-            className="text-sm font-semibold"
-            style={{ color: message.user.color }}
-          >
+          <span className="text-sm font-semibold" style={{ color: message.user.color }}>
             {message.user.username}
           </span>
           <span className="text-xs text-zinc-600">
             {format(new Date(message.createdAt), 'HH:mm')}
           </span>
-          {message.editedAt && (
-            <span className="text-xs text-zinc-600">(edited)</span>
-          )}
+          {message.editedAt && <span className="text-xs text-zinc-600">(edited)</span>}
         </div>
 
-        {/* Reply preview */}
         {message.replyTo && (
           <div className="flex items-start gap-2 mb-1 pl-2 border-l-2 border-zinc-600">
-            <span
-              className="text-xs font-medium"
-              style={{ color: message.replyTo.user.color }}
-            >
+            <span className="text-xs font-medium" style={{ color: message.replyTo.user.color }}>
               {message.replyTo.user.username}
             </span>
             <span className="text-xs text-zinc-500 truncate">{message.replyTo.content}</span>
           </div>
         )}
 
-        {/* Content */}
         {editing ? (
           <div className="flex gap-2">
             <input
               value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-              onKeyDown={(e) => {
+              onChange={e => setEditContent(e.target.value)}
+              onKeyDown={e => {
                 if (e.key === 'Enter') handleEdit()
                 if (e.key === 'Escape') setEditing(false)
               }}
@@ -128,8 +117,7 @@ export function MessageBubble({ message, isOwn, onReply }: MessageBubbleProps) {
           <p className="text-sm text-zinc-200 break-words">{message.content}</p>
         )}
       </div>
-
-      {/* Actions */}
+      ì{' '}
       {showActions && (
         <div className="absolute right-4 top-0 -translate-y-1/2 flex items-center gap-1 bg-zinc-800 border border-zinc-700 rounded-lg px-1 py-0.5 shadow-lg">
           <button

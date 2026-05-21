@@ -62,7 +62,6 @@ messageRouter.post('/:roomId', async (req: AuthRequest, res) => {
     include: messageInclude,
   })
 
-  // Emetti il messaggio a tutti nella stanza
   io.to(roomId).emit('message:new', message)
 
   res.status(201).json(message)

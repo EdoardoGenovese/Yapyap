@@ -5,7 +5,6 @@ import { prisma } from '../utils/prisma'
 import { authenticate } from '../middleware/auth'
 import type { AuthRequest } from '../types'
 
-
 export const roomRouter = Router()
 roomRouter.use(authenticate)
 
@@ -55,7 +54,16 @@ roomRouter.get('/:id', async (req: AuthRequest, res) => {
       owner: { select: { id: true, username: true, color: true } },
       members: {
         include: {
-          user: { select: { id: true, username: true, color: true, avatar: true, isOnline: true, lastSeen: true } },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              color: true,
+              avatar: true,
+              isOnline: true,
+              lastSeen: true,
+            },
+          },
         },
       },
     },
@@ -66,7 +74,6 @@ roomRouter.get('/:id', async (req: AuthRequest, res) => {
     return
   }
 
-  // Verifica accesso per stanze private
   if (room.type === 'PRIVATE') {
     const isMember = room.members.some((m: { userId: string }) => m.userId === userId)
     if (!isMember) {

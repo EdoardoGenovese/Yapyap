@@ -48,7 +48,9 @@ export function JoinRoomDialog({ open, onOpenChange }: JoinRoomDialogProps) {
 
         <Tabs defaultValue="private" className="mt-2">
           <TabsList className="bg-zinc-800 w-full">
-            <TabsTrigger value="private" className="flex-1">Private invite</TabsTrigger>
+            <TabsTrigger value="private" className="flex-1">
+              Private invite
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="private" className="flex flex-col gap-4 mt-4">
@@ -57,8 +59,8 @@ export function JoinRoomDialog({ open, onOpenChange }: JoinRoomDialogProps) {
               <Input
                 placeholder="abc123xyz"
                 value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleJoinPrivate()}
+                onChange={e => setInviteCode(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleJoinPrivate()}
                 className="bg-zinc-800 border-zinc-700 text-white font-mono"
                 autoFocus
               />

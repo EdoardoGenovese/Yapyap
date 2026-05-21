@@ -5,8 +5,7 @@ export const api = axios.create({
   withCredentials: false,
 })
 
-// Interceptor — aggiunge il token ad ogni richiesta
-api.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const token = localStorage.getItem('accessToken')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -14,10 +13,9 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Interceptor — gestisce il refresh del token
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     const original = error.config
 
     if (error.response?.status === 401 && !original._retry) {
@@ -27,10 +25,9 @@ api.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken')
         if (!refreshToken) throw new Error('No refresh token')
 
-        const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
-          { refreshToken }
-        )
+        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`, {
+          refreshToken,
+        })
 
         localStorage.setItem('accessToken', data.accessToken)
         localStorage.setItem('refreshToken', data.refreshToken)

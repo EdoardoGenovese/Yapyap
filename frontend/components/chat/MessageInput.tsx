@@ -13,12 +13,7 @@ interface MessageInputProps {
   onMessageSent: (message: Message) => void
 }
 
-export function MessageInput({
-  roomId,
-  replyTo,
-  onCancelReply,
-  onMessageSent,
-}: MessageInputProps) {
+export function MessageInput({ roomId, replyTo, onCancelReply, onMessageSent }: MessageInputProps) {
   const { socket } = useSocket()
   const [content, setContent] = useState('')
   const [sending, setSending] = useState(false)
@@ -68,7 +63,6 @@ export function MessageInput({
 
   return (
     <div className="px-4 py-3 border-t border-zinc-800 bg-zinc-900 shrink-0">
-      {/* Reply preview */}
       {replyTo && (
         <div className="flex items-center justify-between mb-2 px-3 py-2 bg-zinc-800 rounded-lg border-l-2 border-violet-500">
           <div className="flex flex-col min-w-0">
@@ -84,7 +78,6 @@ export function MessageInput({
       )}
 
       <div className="flex items-center gap-2">
-        {/* File upload */}
         <input
           ref={fileInputRef}
           type="file"
@@ -100,14 +93,13 @@ export function MessageInput({
           <Paperclip className="w-5 h-5" />
         </button>
 
-        {/* Input */}
         <input
           value={content}
-          onChange={(e) => {
+          onChange={e => {
             setContent(e.target.value)
             emitTyping()
           }}
-          onKeyDown={(e) => {
+          onKeyDown={e => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault()
               handleSend()
@@ -118,7 +110,6 @@ export function MessageInput({
           className="flex-1 bg-zinc-800 border border-zinc-700 text-white placeholder:text-zinc-600 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors"
         />
 
-        {/* Send */}
         <button
           onClick={handleSend}
           disabled={!content.trim() || sending}

@@ -35,8 +35,8 @@ function MemberItem({ member }: { member: RoomMember }) {
 }
 
 export function MembersList({ members }: MembersListProps) {
-  const online = members.filter((m) => m.user.isOnline)
-  const offline = members.filter((m) => !m.user.isOnline)
+  const online = members.filter(m => m.user.isOnline)
+  const offline = members.filter(m => !m.user.isOnline)
 
   return (
     <div className="w-52 bg-zinc-900 border-l border-zinc-800 flex flex-col h-full shrink-0">
@@ -52,7 +52,9 @@ export function MembersList({ members }: MembersListProps) {
             <p className="text-xs font-semibold text-zinc-600 uppercase tracking-wider px-3 mb-1">
               Online — {online.length}
             </p>
-            {online.map((m) => <MemberItem key={m.id} member={m} />)}
+            {online.map(m => (
+              <MemberItem key={m.id} member={m} />
+            ))}
           </div>
         )}
 
@@ -61,7 +63,9 @@ export function MembersList({ members }: MembersListProps) {
             <p className="text-xs font-semibold text-zinc-600 uppercase tracking-wider px-3 mb-1">
               Offline — {offline.length}
             </p>
-            {offline.map((m) => <MemberItem key={m.id} member={m} />)}
+            {offline.map(m => (
+              <MemberItem key={m.id} member={m} />
+            ))}
           </div>
         )}
       </div>

@@ -12,18 +12,21 @@ import { Label } from '@/components/ui/label'
 import { authApi } from '@/lib/api/auth'
 import { useAuthStore } from '@/lib/stores/authStore'
 
-const registerSchema = z.object({
-  username: z.string()
-    .min(3, 'At least 3 characters')
-    .max(20, 'Max 20 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers and underscores'),
-  email: z.email('Invalid email'),
-  password: z.string().min(8, 'At least 8 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-})
+const registerSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, 'At least 3 characters')
+      .max(20, 'Max 20 characters')
+      .regex(/^[a-zA-Z0-9_]+$/, 'Only letters, numbers and underscores'),
+    email: z.email('Invalid email'),
+    password: z.string().min(8, 'At least 8 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 type RegisterForm = z.infer<typeof registerSchema>
 
@@ -32,7 +35,11 @@ export default function RegisterPage() {
   const { setAuth } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
   })
 
@@ -57,20 +64,22 @@ export default function RegisterPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="username" className="text-zinc-400 text-xs">Username</Label>
+          <Label htmlFor="username" className="text-zinc-400 text-xs">
+            Username
+          </Label>
           <Input
             id="username"
             placeholder="cooluser123"
             className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
             {...register('username')}
           />
-          {errors.username && (
-            <p className="text-red-400 text-xs">{errors.username.message}</p>
-          )}
+          {errors.username && <p className="text-red-400 text-xs">{errors.username.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email" className="text-zinc-400 text-xs">Email</Label>
+          <Label htmlFor="email" className="text-zinc-400 text-xs">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
@@ -78,13 +87,13 @@ export default function RegisterPage() {
             className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
             {...register('email')}
           />
-          {errors.email && (
-            <p className="text-red-400 text-xs">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-400 text-xs">{errors.email.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password" className="text-zinc-400 text-xs">Password</Label>
+          <Label htmlFor="password" className="text-zinc-400 text-xs">
+            Password
+          </Label>
           <Input
             id="password"
             type="password"
@@ -92,13 +101,13 @@ export default function RegisterPage() {
             className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
             {...register('password')}
           />
-          {errors.password && (
-            <p className="text-red-400 text-xs">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-red-400 text-xs">{errors.password.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="confirmPassword" className="text-zinc-400 text-xs">Confirm password</Label>
+          <Label htmlFor="confirmPassword" className="text-zinc-400 text-xs">
+            Confirm password
+          </Label>
           <Input
             id="confirmPassword"
             type="password"

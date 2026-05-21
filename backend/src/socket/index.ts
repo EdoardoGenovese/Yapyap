@@ -19,8 +19,6 @@ declare module 'socket.io' {
 }
 
 export function initSocket(io: Server) {
-
-  // Middleware autenticazione Socket
   io.use(async (socket, next) => {
     const token = socket.handshake.auth.token
 
@@ -58,14 +56,12 @@ export function initSocket(io: Server) {
     const user = socket.user!
     console.log(`✅ ${user.username} connected (${socket.id})`)
 
-    // Marca utente online
     await setUserOnline(user.userId, socket.id)
     await prisma.user.update({
       where: { id: user.userId },
       data: { isOnline: true },
     })
 
-    // Entra automaticamente nelle stanze di cui è membro
     const memberships = await prisma.roomMember.findMany({
       where: { userId: user.userId },
       select: { roomId: true },
@@ -77,13 +73,11 @@ export function initSocket(io: Server) {
       await addUserToRoom(roomId, user.userId)
     }
 
-    // Notifica tutti che l'utente è online
     socket.broadcast.emit('user:online', {
       userId: user.userId,
       username: user.username,
     })
 
-    // ─── Join room ──────────────────────────────────────────
     socket.on('room:join', async (roomId: string) => {
       socket.join(roomId)
       if (!user.rooms.includes(roomId)) {
@@ -101,10 +95,9 @@ export function initSocket(io: Server) {
       })
     })
 
-    // ─── Leave room ─────────────────────────────────────────
     socket.on('room:leave', async (roomId: string) => {
       socket.leave(roomId)
-      user.rooms = user.rooms.filter((r) => r !== roomId)
+      user.rooms = user.rooms.filter(r => r !== roomId)
       await removeUserFromRoom(roomId, user.userId)
 
       socket.to(roomId).emit('room:user_left', {
@@ -114,7 +107,6 @@ export function initSocket(io: Server) {
       })
     })
 
-    // ─── Typing ─────────────────────────────────────────────
     socket.on('typing:start', async ({ roomId }: { roomId: string }) => {
       await setTyping(roomId, user.userId)
       socket.to(roomId).emit('typing:update', {
@@ -135,7 +127,6 @@ export function initSocket(io: Server) {
       })
     })
 
-    // ─── Disconnect ─────────────────────────────────────────
     socket.on('disconnect', async () => {
       console.log(`❌ ${user.username} disconnected`)
 

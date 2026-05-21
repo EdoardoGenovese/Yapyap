@@ -35,50 +35,46 @@ export function ChatRoom({ roomId }: ChatRoomProps) {
     queryFn: () => messagesApi.getMessages(roomId),
   })
 
-  // Carica i messaggi iniziali
   useEffect(() => {
     if (initialMessages?.messages) {
       setMessages(initialMessages.messages)
     }
   }, [initialMessages])
 
-  // Scrolla in fondo quando arrivano nuovi messaggi
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Socket.io events
   useEffect(() => {
     if (!socket) return
 
     socket.emit('room:join', roomId)
 
     socket.on('message:new', (message: Message) => {
-      setMessages((prev) => [...prev, message])
+      setMessages(prev => [...prev, message])
     })
 
     socket.on('message:updated', (updated: Message) => {
-      setMessages((prev) => prev.map((m) => m.id === updated.id ? updated : m))
+      setMessages(prev => prev.map(m => (m.id === updated.id ? updated : m)))
     })
 
     socket.on('message:deleted', ({ id }: { id: string }) => {
-      setMessages((prev) => prev.filter((m) => m.id !== id))
+      setMessages(prev => prev.filter(m => m.id !== id))
     })
 
-    socket.on('typing:update', ({ userId, username, isTyping }: {
-      userId: string
-      username: string
-      isTyping: boolean
-    }) => {
-      if (userId === user?.id) return
-      setTypingUsers((prev) => {
-        if (isTyping) {
-          const exists = prev.some((u) => u.userId === userId)
-          return exists ? prev : [...prev, { userId, username }]
-        }
-        return prev.filter((u) => u.userId !== userId)
-      })
-    })
+    socket.on(
+      'typing:update',
+      ({ userId, username, isTyping }: { userId: string; username: string; isTyping: boolean }) => {
+        if (userId === user?.id) return
+        setTypingUsers(prev => {
+          if (isTyping) {
+            const exists = prev.some(u => u.userId === userId)
+            return exists ? prev : [...prev, { userId, username }]
+          }
+          return prev.filter(u => u.userId !== userId)
+        })
+      }
+    )
 
     return () => {
       socket.emit('room:leave', roomId)
@@ -94,10 +90,7 @@ export function ChatRoom({ roomId }: ChatRoomProps) {
   return (
     <div className="flex h-full">
       <div className="flex flex-col flex-1 overflow-hidden">
-        <RoomHeader
-          room={room}
-          onMembersToggle={() => setMembersOpen((v) => !v)}
-        />
+        <RoomHeader room={room} onMembersToggle={() => setMembersOpen(v => !v)} />
         <MessageList
           messages={messages}
           currentUserId={user?.id ?? ''}
@@ -109,13 +102,11 @@ export function ChatRoom({ roomId }: ChatRoomProps) {
           roomId={roomId}
           replyTo={replyTo}
           onCancelReply={() => setReplyTo(null)}
-          onMessageSent={(msg) => setMessages((prev) => [...prev, msg])}
+          onMessageSent={msg => setMessages(prev => [...prev, msg])}
         />
       </div>
 
-      {membersOpen && room.members && (
-        <MembersList members={room.members} />
-      )}
+      {membersOpen && room.members && <MembersList members={room.members} />}
     </div>
   )
 }

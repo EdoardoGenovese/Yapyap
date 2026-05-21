@@ -21,39 +21,34 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const { accessToken } = useAuthStore()
 
   useEffect(() => {
-  if (!accessToken) return // non connettere se non loggato
+    if (!accessToken) return // non connettere se non loggato
 
-  const s = connectSocket(accessToken)
-  setSocket(s)
+    const s = connectSocket(accessToken)
+    setSocket(s)
 
-  s.on('connect', () => {
-    setIsConnected(true)
-  })
+    s.on('connect', () => {
+      setIsConnected(true)
+    })
 
-  s.on('disconnect', () => {
-    setIsConnected(false)
-  })
+    s.on('disconnect', () => {
+      setIsConnected(false)
+    })
 
-  s.on('connect_error', (err) => {
-    // Logga solo se non è un problema di token mancante
-    if (err.message !== 'Invalid token' && err.message !== 'No token provided') {
-      console.error('Socket error:', err.message)
+    s.on('connect_error', err => {
+      if (err.message !== 'Invalid token' && err.message !== 'No token provided') {
+        console.error('Socket error:', err.message)
+      }
+    })
+
+    return () => {
+      s.off('connect')
+      s.off('disconnect')
+      s.off('connect_error')
+      disconnectSocket()
     }
-  })
+  }, [accessToken])
 
-  return () => {
-    s.off('connect')
-    s.off('disconnect')
-    s.off('connect_error')
-    disconnectSocket()
-  }
-}, [accessToken])
-
-  return (
-    <SocketContext.Provider value={{ socket, isConnected }}>
-      {children}
-    </SocketContext.Provider>
-  )
+  return <SocketContext.Provider value={{ socket, isConnected }}>{children}</SocketContext.Provider>
 }
 
 export function useSocket() {

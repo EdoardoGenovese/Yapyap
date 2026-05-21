@@ -24,7 +24,11 @@ export default function LoginPage() {
   const { setAuth } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginForm>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   })
 
@@ -45,7 +49,9 @@ export default function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="email" className="text-zinc-400 text-xs">Email</Label>
+          <Label htmlFor="email" className="text-zinc-400 text-xs">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
@@ -53,13 +59,13 @@ export default function LoginPage() {
             className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
             {...register('email')}
           />
-          {errors.email && (
-            <p className="text-red-400 text-xs">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-400 text-xs">{errors.email.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="password" className="text-zinc-400 text-xs">Password</Label>
+          <Label htmlFor="password" className="text-zinc-400 text-xs">
+            Password
+          </Label>
           <Input
             id="password"
             type="password"
@@ -67,9 +73,7 @@ export default function LoginPage() {
             className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
             {...register('password')}
           />
-          {errors.password && (
-            <p className="text-red-400 text-xs">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-red-400 text-xs">{errors.password.message}</p>}
         </div>
 
         {error && (
